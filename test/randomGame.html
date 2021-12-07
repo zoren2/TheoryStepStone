@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" integrity="sha512-TU/clvRaSqKB43MX6dvJPEWV8tEGDTbmT4mdxTs6DSYsBY9zKmiw4Qeykp0nS10ndH14HRNG2VWN+IjiMfA17Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js" integrity="sha384-s3XgLpvmHyscVpijnseAmye819Ee3yaGa8NxstkJVyA6nuDFjt59u1QvuEl/mecz" crossorigin="anonymous"></script>
+
+    </head>
+    <body>
+        <div id="myBoard" style="width: 400px"></div>
+    </body>
+    
+ <script>
+    let board = null;
+    let game = new Chess();
+
+    function makeRandomMove() {
+        let possibleMoves = game.moves();
+        //exit if the game is over
+        if(game.game_over())
+            return;
+
+        // Generate a random move
+        let move = Math.floor(Math.random() * possibleMoves.length);
+        game.move(possibleMoves[move]);
+        board.position(game.fen());
+        window.setTimeout(makeRandomMove, 500);
+    }
+    
+    board = Chessboard('myBoard', 'start')
+    window.setTimeout(makeRandomMove, 500);
+
+    //Print generated game
+    console.log(game.pgn());
+    </script>
+</html>
