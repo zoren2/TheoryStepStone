@@ -24,22 +24,14 @@
                 // value - some data. Always undefined when done is true.
                 ({ done, value }) => {
                 if (done) {
-                    //
-                    console.log("inside done")
                     if (buf.length > 0) processLine(JSON.parse(buf));
-                    console.log("after buf")
                 }      
 
                 // Not finished, populate the buffer with stream content
                 else {
-                    console.log("inside else")
-                    
                     const chunk = decoder.decode(value, {
                         stream: true
-                    });
-                    
-                    console.log(chunk);
-                    
+                    });         
                     buf += chunk;
 
                     // Splits the content in order to display it
@@ -65,9 +57,7 @@ const games = new Array();
 // Callback function that simply logs a passed in object
 const onMessage = obj => games.push(obj);
 const printGames = () => {
-    for(let i = 0; i < games.length; i++) {
-        console.log(games[i]);
-    }
+    games.forEach(game => console.log(game));
 };
 const onComplete = () => console.log('The stream has completed');
 
