@@ -1,7 +1,11 @@
-
 /*
- * Closure allows response to be accessed in this manner
+ * This script grabs games via the https://lichess.org/api/games/user/{username}
+ * header:x-chess-pgn endpoint. It serves only as a scaffold to test this endpoint
+ * and to learn about javascript closures.
  */ 
+
+
+ // Closure allows the response to be accessed in this manner
 function readStream(processLine) {
     return function (response) {
         const stream = response.body.getReader();
@@ -15,8 +19,6 @@ function readStream(processLine) {
                         if (buffer.length > 0) {
                             processLine(buffer);
                         }
-                        stillReading = false;
-                        return;
                     }
                     else {
                         const chunk = decoder.decode(value, {
@@ -32,6 +34,4 @@ function readStream(processLine) {
 } // End fn
 const stream = fetch('https://lichess.org/api/games/user/lovlas?max=3', {headers:{Accept:'application/x-chess-pgn'}});
 const games = new Array();
-console.log(stream);
-stream.then(readStream( (obj) => console.log(obj) ));
-console.log("Stream completed");
+stream.then(readStream( (obj) => console.log(obj)));
