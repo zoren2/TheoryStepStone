@@ -1,43 +1,106 @@
 <!DOCTYPE HTML>
 <html>
     <meta charset="utf-8">
+<head>
+    <!-- <link rel="stylesheet" src="css/chessboard-0.3.0.min.css"/> -->
     <!-- You will need to add stockfish.js in the test folder-->
     <!-- For this example I used stockfish.js 11-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" integrity="sha512-TU/clvRaSqKB43MX6dvJPEWV8tEGDTbmT4mdxTs6DSYsBY9zKmiw4Qeykp0nS10ndH14HRNG2VWN+IjiMfA17Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="javascript/jquery-1.10.1.min.js"></script>
     <script src="stockfish.js"></script>
     <script src="stockfish.asm.js"></script>
+    <script src="javascript/chess.min.js"></script>
+    <script src="javascript/chessboard-0.3.0.min.js"></script>
+    <script src="javascript/chess.min.js"></script>
 
-<head>
 </head>
 <body>
     <h1>This script tests the different config options of chessboard.js, chess.js, and stockfish.js </h1>
+    <div id="myBoard" style="width: 400px"></div>
 </body>
 <script>
+    
     /*
      * This simple script sets up Stockfish on a local machine (as mentioned provide SF11.js)
      * plays 1.e4 (best by test) and relays the information back to the user in the console.log.
      * You can then use the output to manipulate DOM elements or whatever you want to do with it.
      */
-    let engine = STOCKFISH();
+
+    /*
+     * User defaults
+     */
+    let playerColor = 'white';
+
+    
+    /*
+     * User driven event handling
+     */
+
+    /* 
+     * This event handler is fired when a piece is initially picked up
+     * Only pick up pieces for the color you're playing and do not allow user to pick pieces
+     * if the game/task is complete
+     */
+     let onDragStart = function(source, piece, position, orientation) {
+        console.log("Dragging")
+        let re = playerColor == 'white' ? /^b/ : /^w/
+            if (game.game_over() ||
+                piece.search(re) !== -1) {
+                return false;
+            }
+    };
+
+    let onDrop = function(source, target) {
+        // see if the move is legal
+        let move = game.move({
+            from: source,
+            to: target,
+            // promotion: document.getElementById("promote").value
+        });
+
+        // illegal move
+        if (move === null) return 'snapback';
+
+        console.log("Piece successfully dropped!");
+        // prepareMove(); // Unimplemented
+    };
+
+    // update the board position after the piece is released by user
+    let onSnapEnd = function() {
+        board.position(game.fen());
+    };
+
+    
+    /*
+     * Configurations (Must be placed after library declarations)
+     */
+
+    // uci wrapper for Stockfish
     function uciCmd(cmd) {
         console.log("UCI: " + cmd);
         engine.postMessage(cmd);
     }
+    // Chessboard.js configurations
+    let cbConfig = {
+        showErrors: true,
+        draggable: true,
+        position: 'start',
+        onDragStart: onDragStart,
+        onDrop: onDrop,
+        onSnapEnd: onSnapEnd
+    };
 
-    // Add Stockfish to the testing script to bypass CORS
-    let script_tag  = document.createElement("script");
-    script_tag.type ="text/javascript";
-    script_tag.src  = "stockfish.js";
-    document.getElementsByTagName("head")[0].appendChild(script_tag);
-    setTimeout(function ()
-          {
-            console.warn("Loading this example from the file: protocol will load the slower asm.js engine.\nRun server.js and then load http://localhost:8080/ for the WASM engine.");
-          }, 3000);
+    /*
+     * Libraries
+     */
+    let engine = STOCKFISH();
+    let board = ChessBoard('myBoard', cbConfig);
+    let game = new Chess();
 
     /*
      *  Handle stockfish's answer from the engine back to the GUI (mostly console.log messages for now)
      */
-    engine.onmessage = function(event) {
+     engine.onmessage = function(event) {
         var line;
         
         if (event && typeof event === "object") {
@@ -48,6 +111,22 @@
         
         console.log("evaler: " + line);
     }
+
+
+
+    /*
+     * Driver code
+     */
+    
+    // Add Stockfish to the testing script to bypass CORS
+    let script_tag  = document.createElement("script");
+    script_tag.type ="text/javascript";
+    script_tag.src  = "stockfish.js";
+    document.getElementsByTagName("head")[0].appendChild(script_tag);
+    setTimeout(function ()
+          {
+            console.warn("Loading this example from the file: protocol will load the slower asm.js engine.\nRun server.js and then load http://localhost:8080/ for the WASM engine.");
+          }, 3000);
 
     // Init with uci followed by telling the engine confugirations
     uciCmd('uci');
