@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+    <meta charset="utf-8">
+    <!-- You will need to add stockfish.js in the test folder-->
+    <!-- For this example I used stockfish.js 11-->
+    <script src="javascript/jquery-1.10.1.min.js"></script>
+    <script src="stockfish.js"></script>
+    <script src="stockfish.asm.js"></script>
+
+<head>
+</head>
+<body>
+    <h1>This script tests the different config options of chessboard.js, chess.js, and stockfish.js </h1>
+</body>
+<script>
+    /*
+     * This simple script sets up Stockfish on a local machine (as mentioned provide SF11.js)
+     * plays 1.e4 (best by test) and relays the information back to the user in the console.log.
+     * You can then use the output to manipulate DOM elements or whatever you want to do with it.
+     */
+    let engine = STOCKFISH();
+    function uciCmd(cmd) {
+        console.log("UCI: " + cmd);
+        engine.postMessage(cmd);
+    }
+
+    // Add Stockfish to the testing script to bypass CORS
+    let script_tag  = document.createElement("script");
+    script_tag.type ="text/javascript";
+    script_tag.src  = "stockfish.js";
+    document.getElementsByTagName("head")[0].appendChild(script_tag);
+    setTimeout(function ()
+          {
+            console.warn("Loading this example from the file: protocol will load the slower asm.js engine.\nRun server.js and then load http://localhost:8080/ for the WASM engine.");
+          }, 3000);
+
+    /*
+     *  Handle stockfish's answer from the engine back to the GUI (mostly console.log messages for now)
+     */
+    engine.onmessage = function(event) {
+        var line;
+        
+        if (event && typeof event === "object") {
+            line = event.data;
+        } else {
+            line = event;
+        }
+        
+        console.log("evaler: " + line);
+    }
+
+    // Init with uci followed by telling the engine confugirations
+    uciCmd('uci');
+    uciCmd('setoption name Skill Level value 1');
+
+    // Staring a new game and telling the engine the configurations are ready
+    uciCmd('ucinewgame');
+    uciCmd('isReady');
+    uciCmd('go depth 10');
+    uciCmd('position startpos e2e4');
+</script>
+</html>
