@@ -1,21 +1,29 @@
 <html>
-    
     <head>
+        <meta charset="utf-8">
+        <title>Theory Stepping Stones</title>
+        <!-- <script src="javascript/browser-ndjson-stream-reader.js"></script> -->
+        <link rel="stylesheet" href="css/main.min.css">
     </head>
+    
     <body>
-        <div><p>Hello</p></div>
+        <nav class="navbar">
+            <div>
+                <a href="#">Theory Stepping Stones</a>
+            </div>
+                <ul class="nav-list">
+                    <li class="list-item">
+                        <a href="#">Our Service</a>
+                    </li>
+                    <li class="list-item">
+                        <a href="#">About Us</a>
+                    </li>
+                    <li class="list-item">
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+        </nav>
     </body>
-    <script src="javascript/browser-ndjson-stream-reader.js"></script>
-    <script src="node_modules/chess.js/"></script>
     <script>
-        const { Chess } = require('./chess.js')
-        const chess = new Chess()
-
-        while (!chess.game_over()) {
-            const moves = chess.moves()
-            const move = moves[Math.floor(Math.random() * moves.length)]
-            chess.move(move)
-        }
-        console.log(chess.pgn())
     </script>
 </html>
