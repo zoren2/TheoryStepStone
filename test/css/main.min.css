@@ -22,6 +22,7 @@ html {
 .navbar a {
     color: white;
     text-decoration: none;
+    padding-bottom: 10px;
 }
 
 .navbar a:hover {
@@ -34,6 +35,59 @@ html {
 
 /* Making block list items inline */
 .nav-list .list-item {
-    display: inline-block;
+    display: inline-block;    
     padding: 20px 10px;
+}
+
+.primary-icon {
+    height: 32px;
+    width: 32px;
+    height: 30px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.menu-line {
+    width: 20px;
+    height: 3px;
+    background-color: white;
+    margin: 5px;
+}
+
+
+@media all and (max-width: 480px) {
+    .navbar {
+        flex-direction: column;
+        position: relative;
+    }
+
+    /* Keeps icon on the top left when in mobile */
+    .navbar .container-icon {
+        width: 100%
+    }
+
+    .menu {
+        display: block;
+        position: absolute;
+        right: 15px;
+        top: 15px; 
+    }
+
+    .nav-list {
+        list-style-type: none;
+        width: 100%;
+        text-align: center;
+        padding-top: 10px;
+        display: none;
+    }
+
+
+    .nav-list .list-item {
+        display: block;
+        border-top: 1px solid white;
+    }
+
+    .active {
+        display: block;
+    }
 }

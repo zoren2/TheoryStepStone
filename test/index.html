@@ -8,10 +8,10 @@
     
     <body>
         <nav class="navbar">
-            <div>
-                <a href="#">Theory Stepping Stones</a>
+            <div class="container-icon">
+                <a href="#"><img src="img/icon/logo.png" class="primary-icon"></a>
             </div>
-                <ul class="nav-list">
+                <ul class="nav-list" id="navi-list">
                     <li class="list-item">
                         <a href="#">Our Service</a>
                     </li>
@@ -21,9 +21,25 @@
                     <li class="list-item">
                         <a href="#">Contact</a>
                     </li>
+                    <li class="list-item">
+                        <a href="#">Support</a>
+                    </li>
                 </ul>
+                <div class="menu" id="toggle-button">
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                </div>
         </nav>
     </body>
+
+    <!-- Temporary placement of navigation JS-->
     <script>
+        const toggleButton = document.getElementById('toggle-button');
+        const naviList = document.getElementById("navi-list");
+
+        toggleButton.addEventListener('click', () => {
+            naviList.classList.toggle('active'); // Toggles the css class.
+        });
     </script>
 </html>
