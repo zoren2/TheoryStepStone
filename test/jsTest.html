@@ -3,7 +3,7 @@
 <head>
 </head>
 <body>
-    <h1>This page holds JSON representations of a PGN.</h1>
+    <h1>This page holds JSON representations of a PGN and processes different fields using utility methods and into different data structures.</h1>
 </body>
 <script>
     const firstGame = {
@@ -18,17 +18,17 @@
         "players":{
             "white":{
                 "user":{
-                    "name":"lovlas",
+                    "name":"smith",
                     "title":"IM",
                     "patron":true,
-                    "id":"lovlas"
+                    "id":"smith"
                 },
                 "rating":2471
             },
             "black":{
                 "user":{
-                    "name":"mansimum",
-                    "id":"mansimum"
+                    "name":"bob",
+                    "id":"bob"
                 },
                 "rating":2306}
             },
@@ -51,19 +51,19 @@
         "lastMoveAt":1633111369760,
         "status":"resign",
         "players":{
-            "white":{
+            "white":{        
                 "user":{
-                    "name":"mansimum",
-                    "id":"mansimum"
+                    "name":"bob",
+                    "id":"bob"
                 },
                 "rating":2306
             },
             "black":{
                 "user":{
-                    "name":"lovlas",
+                    "name":"smith",
                     "title":"IM",
                     "patron":true,
-                    "id":"lovlas"
+                    "id":"smith"
                 },
                 "rating":2471
             }
@@ -90,5 +90,7 @@
         gameOneMoves = gameOneMoves.split(' ');
         for (const move of gameOneMoves) 
             console.log(move);
+
+        console.log(firstGame.players.black.user.name);
 </script>
 </html>
