@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    
+}
+
+html {
+    font-family:'Noto Sans', Sans-Serif
+}
+
+/* Navigation bar */ 
+.navbar {
+    background:#161512 linear-gradient(to bottom, #2e2a24, #161512 116px) no-repeat;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    color: orange;
+}
+
+.nav-list {
+    list-style-type: none;
+}
+
+/* Making block list items inline */
+.nav-list .list-item {
+    display: inline-block;
+    padding: 20px 10px;
+}
